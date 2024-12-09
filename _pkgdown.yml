@@ -1,0 +1,4 @@
+url: https://iom.github.io/iomdown/
+template:
+  package: iomtemplate
+  bootstrap: 5

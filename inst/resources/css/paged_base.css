@@ -1,0 +1,451 @@
+/*! =========================================================
+@name             paged_base.css
+@description      IOM paged document base CSS
+============================================================= */
+
+/*** CSS variables ***/
+:root {
+    --background: whitesmoke;
+    --pagedjs-width: 210mm;
+    --pagedjs-height: 297mm;
+    --color-paper: white;
+    --color-mbox: rgba(0, 0, 0, 0.2);
+    --running-title-width: 2.5in;
+    --screen-pages-spacing: 5mm;
+    --iom-black: #000000;
+    --iom-blue: #0033A0;
+    --iom-lightblue: #418FDE;
+    --iom-lightyellow: #FFB81C;
+    --iom-grey: #808080;
+    --iom-mediumgrey: #D3D3D3;
+    --iom-lightgrey: #F5F5F5;
+}
+
+/*** Fonts ***/
+body {
+  color: var(--iom-black);
+  font-size: 13.5px;
+  line-height: 1.5;
+  font-family: 'Gill Sans Nova', sans-serif;
+}
+
+/* headers */
+h6, h5, h4, h3, h2, h1 {
+  line-height: 1.2;
+  margin-bottom: 0.75em;
+}
+
+h3, h2, h4 {
+}
+
+h4, h5, h6 {
+  color: var(--iom-blue);
+}
+
+h1 {
+  display: table;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  background-color: var(--iom-blue);
+  color:  #ffffff;
+  padding: 0.25em;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-style: bold;
+  text-transform: uppercase;
+  margin-bottom: 0.65em;
+  padding: 0.25em;
+}
+
+h3 {
+  font-size: 1.25em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h4 { 
+  font-size: 1.1em;
+  padding: 0.25em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+/*** paragraph elements ***/
+p {
+  margin-bottom: 1.2em;
+}
+
+blockquote {
+  margin-bottom: 1em;
+  quotes: "“" "”" "‘" "’";
+}
+
+blockquote>:first-child {
+  font-size: 1.1em;
+  font-style: italic;
+  margin-bottom: 0;
+  color: var(--iom-blue);
+  quotes: "“" "”" "‘" "’";
+}
+
+blockquote>:first-child::before {
+  content: open-quote;
+}
+
+blockquote>:first-child::after {
+  content: close-quote;
+}
+
+blockquote>:last-child {
+  font-weight: 700;
+  text-align: end;
+}
+
+blockquote>:last-child::before {
+  content: "— ";
+}
+
+blockquote>:only-child {
+  font-weight: 400;
+  text-align: start;
+}
+
+blockquote>:only-child::before,
+blockquote>:only-child::after {
+  content: none;
+}
+
+em {
+  font-style: italic;
+}
+
+b,
+strong {
+  font-weight: 700;
+}
+
+small {
+  font-size: 0.875em;
+}
+
+big, .lead {
+  font-size: 1.2em;
+}
+
+mark {
+  padding: 0.2em;
+  background-color: var(--iom-lightyellow);
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+a {
+  color: var(--iom-lightblue);
+  text-decoration: underline;
+}
+
+u {
+  text-decoration: underline;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+.footnote {
+  font-size: 0.75em !important;
+  font-style: italic;
+}
+
+.footnote-ref {
+  text-decoration: none;
+  color: var(--iom-black);
+}
+
+/* lists */
+ol, ul {
+  padding-left: 1em;
+  list-style: square;
+}
+
+ol, ul, dl {
+  margin-bottom: 1em;
+  line-height: 1.25;
+}
+
+ul li::marker,
+ol li::marker {
+  color: var(--iom-blue);
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-bottom: 0.5em;
+  margin-left: 0;
+}
+
+/* code */
+pre {
+  display: block;
+  margin-bottom: 1em;
+  font-size: 0.85em;
+  padding: 1em;
+}
+
+pre[class] {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+pre code {
+  font-size: inherit;
+  color: inherit;
+  word-break: normal;
+}
+
+code {
+  font-size: 0.85em;
+  word-wrap: break-word;
+}
+
+/* figure */
+figure {
+  margin-bottom: 1em;
+}
+
+img,
+svg {
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+img + em,
+caption, .caption {
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+/*** table ***/
+table {
+  --iom-table-accent-bg: transparent;
+  width: 100%;
+  margin-bottom: 1em;
+  vertical-align: top;
+}
+
+table > :not(caption) > * > * {
+  padding: 0.25em 0.5em;
+  background-color: transparent;
+  border-bottom: 1px solid var(--iom-mediumgrey);
+  box-shadow: inset 0 0 0 9999px var(--iom-table-accent-bg);
+}
+
+table > caption {
+  caption-side: bottom;
+  margin-top: 0.25em;
+}
+
+table > tbody {
+  vertical-align: inherit;
+}
+
+table > thead {
+  vertical-align: bottom;
+}
+
+table > thead > * > * {
+  border-bottom: 1.5px solid var(--iom-blue);
+  font-weight: 700;
+}
+
+.table-noborder > tbody > * > * {
+  border-bottom: 0 solid transparent;
+}
+
+.table-grey > tbody > tr:nth-of-type(odd) > * {
+  --iom-table-accent-bg: rgba(0, 0, 0, 0.05);
+}
+
+.table-blue > tbody > tr:nth-of-type(odd) > * {
+  --iom-table-accent-bg: rgba(0, 114, 188, 0.1);
+}
+.table-narrow {
+  width: inherit;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/*** helper ***/
+.img75, .img66,
+.img50, .img33,
+.img25 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img25 {
+  max-width: 25%;
+}
+
+.img33 {
+  max-width: 33%;
+}
+
+.img50 {
+  max-width: 50%;
+}
+
+.img66 {
+  max-width: 66%;
+}
+
+.img75 {
+  max-width: 75%;
+}
+
+.col2 {
+  columns: 2;
+}
+
+.float-start {
+  float: left !important;
+  margin-right: 1em;
+}
+
+.float-end {
+  float: right !important;
+  margin-left: 1em;
+}
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.blue {
+  color: var(--iom-blue);
+}
+
+.grey {
+  color: var(--iom-grey);
+}
+
+.bg-blue,
+.bg-grey {
+  padding: 1.2em;
+  margin-bottom: 1em;
+}
+
+.bg-blue {
+  background-color: var(--iom-lightblue);
+}
+
+.bg-grey {
+  background-color: var(--iom-lightgrey);
+}
+
+.bg-blue > *:last-child,
+.bg-grey > *:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* url in text */
+a[href^="http"]:not([class="uri"])::after {
+  content: " (" attr(href) ")";
+  font-size: 90%;
+  hyphens: none;
+  word-break: break-all;
+}
+.main a[href^="#"]:not([class^="footnote-"]):not([href*=":"])::after {
+  content: " (page " target-counter(attr(href), page) ")";
+}
+/* do not include page references in code blocks */
+.sourceCode a[href^="#"]:not([class^="footnote-"]):not([href*=":"])::after {
+  content: unset;
+}
+
+/*** For debugging ***/
+/* two pages in a row if possible on screen */
+@media screen {
+  body {
+      background-color: var(--background);
+      margin: var(--screen-pages-spacing) auto 0 auto;
+  }
+  .pagedjs_pages {
+      display: flex;
+      max-width: calc(var(--pagedjs-width) * 2);
+      flex: 0;
+      flex-wrap: wrap;
+      margin: 0 auto;
+  }
+  .pagedjs_page {
+      background-color: var(--color-paper);
+      box-shadow: 0 0 0 1px var(--color-mbox);
+      flex-shrink: 0;
+      flex-grow: 0;
+      margin: auto auto var(--screen-pages-spacing) auto;
+  }
+}
+
+
+/* when a row can hold two pages, start first page on the right */
+@media screen and (min-width: 12.32in) {
+  .pagedjs_page {
+      margin: auto 0 var(--screen-pages-spacing) 0;
+  }
+  .pagedjs_first_page {
+      margin-left: var(--pagedjs-width);
+  }
+}
+
+/* use a fixed width body for mobiles */
+@media screen and (max-width:1180px)  {
+  body {
+    width: calc(var(--pagedjs-width) + 2 * var(--screen-pages-spacing));
+  }
+}
+
+
+/* Css for multiple columns*/
+
+.col-ruler {
+  column-rule: 2px solid #0072bc;
+  column-gap: 30px;
+}
+
+.center {
+  text-align: center;
+}

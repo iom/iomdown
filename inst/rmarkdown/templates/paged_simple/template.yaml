@@ -1,0 +1,4 @@
+name: IOM Paged Simple
+description: >
+ IOM branded paged HTML simple report that can be exported as PDF
+create_dir: false

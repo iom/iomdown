@@ -1,0 +1,662 @@
+---
+title: "Data Report Series"
+subtitle: "Writing Reproducible Data Analysis Notebook with RMarkdown"
+abstract-title: "Self-paced Tutorial"
+abstract: "V.0.1"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
+author:
+  - name: Edouard Legoupil
+    affiliation: Chief Data Officer
+    email: elegoupil@iom.int
+
+output:
+  iomdown::paged_report:
+    # put the path to your cover image
+    front_img:
+    img_to_dark: false
+    # Change to false to remove table of content
+    toc: true
+    # Change to true to add number in front of chapters
+    number_sections: false
+    # Change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
+    self_contained: true
+    
+# Set  toc title, default none
+toc-title: Contents
+# Change to true to include list of tables
+lot: false
+# Set lot title, default: "List of Tables"
+lot-title: "Tables"
+# Change to true to include list of figures
+lof: false
+# Set lof title, default: "List of Figures"
+lof-title: "Figures"
+# If you include any <abbr> a list of abbreviations will be built.
+# Set lof title, default: "List of Abbreviations"
+loa-title: "Acronyms"
+paged-footnotes: true
+links-to-footnotes: true
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+---
+
+```{r setup, include=FALSE, echo=TRUE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      comment = "#>",
+                      message=FALSE, 
+                      warning=FALSE,
+                      fig.width = 6.3,
+                      fig.height = 4.4,
+                      fig.retina = 2,
+                      fig.align = "center",
+                      fig.showtext = TRUE,
+                      dev = "ragg_png",
+                      dpi = 300,
+                      out.width = "90%")  
+options(scipen = 999) # turn-off scientific notation like 1e+48
+```
+
+# Introduction {-}
+
+Markdown is a lightweight markup language that you can use to add formatting elements to __plain text text documents__. This simplify a lot the design of any documents as the graphical design work is handled separately from content development.
+
+The document you read now is actually built on a template that leverage the [R pagedown package](https://pagedown.rbind.io/). This is a good place to demonstrate special features that your template provides.
+
+Using [R Markdown](https://rmarkdown.rstudio.com/), you can embed reproducible code within your report.
+
+Here’s a quick guide to get you started.
+
+# Configure Report {-}
+
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. 
+
+```yaml
+---
+title: "Data Report Series"
+subtitle: "Writing Reproducible Report with RMarkdown"
+abstract-title: "Self-paced Tutorial"
+abstract: "V.0.1"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
+author:
+  - name: Edouard Legoupil
+    affiliation: Chief Data Officer
+    email: ellegoupil@iom.int
+```
+
+You can update the `output` field to add covers images using the `front_cover` and `back_cover` parameters 
+
+```yaml
+output:
+  iomdown::paged_report:
+    # put the path to your cover image
+    front_img:
+    img_to_dark: false
+```
+
+
+Lists of tables and/or figures can be inserted in the document using the `lot` and `lof` variables in the YAML metadata. You also can customize their titles with the `lot-title` and `lof-title` variables. By default, theses lists are referenced in the table of contents, if any. You can use the `lot-unlisted` and `lof-unlisted` options to remove them. For instance:
+
+A list of abbreviations is automatically built if the document contains at least one HTML `abbr` element.
+```yaml
+# Set  toc title, default none
+toc-title: Contents
+# Change to true to include list of tables
+lot: false
+# Set lot title, default: "List of Tables"
+lot-title: "Tables"
+# Change to true to include list of figures
+lof: false
+# Set lof title, default: "List of Figures"
+lof-title: "Figures"
+# If you include any <abbr> a list of abbreviations will be built.
+# Set lof title, default: "List of Abbreviations"
+loa-title: "Acronyms"
+paged-footnotes: true
+links-to-footnotes: true
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+---
+```
+
+By default, the front matter is composed of the cover, the table of contents and the lists of figures, tables and abbreviations if any. The only difference between the front matter pages and the main content pages is the style of the page numbers.
+
+
+```yaml
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+---
+``` 
+
+# Add Content  {-}
+
+
+## Document Structure {-}
+
+Use the `#` symbol to create headers. The number of `#` symbols indicates the level of the header. Add `{-}` to get your header indexed correctly
+
+
+```yaml
+# Header 1 {-}
+
+## Header 2 {-}
+
+### Header 3 {-}
+
+#### Header 4 {-}
+
+##### Header 5 {-}
+
+###### Header 6 {-}
+
+```
+
+## Multiple column   {-}
+
+
+To set up mutliple coumn use the following. Note that you can define in % the respective width of each columns.
+
+```yaml
+:::: {.col2 .col-ruler style="display: flex;"}  
+
+::: {.column width="50%"}
+
+::: {.left data-latex=""}
+
+__Right Column__  
+
+Blablabla Blablabla Blablabla Blablabla Blablabla Blablabla
+ 
+:::
+
+:::
+
+::: {.column width="50%"}
+
+
+::: {.left data-latex=""}
+
+
+__Left Column__   
+
+Blablabla Blablabla Blablabla Blablabla Blablabla Blablabla
+
+:::
+
+:::
+
+::::
+```
+
+
+:::: {.col2 .col-ruler style="display: flex;"}  
+
+::: {.column width="50%"}
+
+::: {.left data-latex=""}
+
+__Right Column__  
+
+Blablabla Blablabla Blablabla Blablabla Blablabla Blablabla
+ 
+:::
+
+:::
+
+::: {.column width="50%"}
+
+
+::: {.left data-latex=""}
+
+__Left Column__   
+
+Blablabla Blablabla Blablabla Blablabla Blablabla Blablabla
+ 
+
+:::
+
+:::
+
+::::
+
+## Infobox   {-}
+
+
+Inforbox can be usefull to outline a specific piece of content within your document.
+
+```yaml
+::: {.bg-blue}
+
+This is an infobox 
+
+:::
+```
+
+::: {.bg-blue}
+
+This is an infobox 
+
+:::
+
+
+## Format text  {-}
+
+
+###  Emphasis  {-}
+You can add emphasis to text using asterisks or underscores.
+
+
+```yaml
+Bold: **bold text** or __bold text__
+Italic: *italic text* or _italic text_
+Strikethrough: ~~strikethrough~~
+**bold text**
+*italic text*
+~~strikethrough~~
+```
+
+Bold: **bold text** or __bold text__
+Italic: *italic text* or _italic text_
+Strikethrough: ~~strikethrough~~
+**bold text**
+*italic text*
+~~strikethrough~~
+ 
+
+### Lists  {-} 
+
+Use dashes (-), asterisks (*), or plus signs (+) to create __unordered lists__.
+```yaml
+
+- Item 1
+- Item 2
+  - Subitem 1
+  - Subitem 2
+```
+
+
+- Item 1
+- Item 2
+  - Subitem 1
+  - Subitem 2
+  
+Use numbers followed by periods to create __ordered lists__.
+
+```yaml
+
+1. First item
+2. Second item
+   1. Subitem 1
+   2. Subitem 2
+```
+
+1. First item
+2. Second item
+   1. Subitem 1
+   2. Subitem 2
+   
+    
+
+### Links  {-}
+
+Create links using square brackets for the text and parentheses for the URL: Inline links are useful when you do not want to show the full URL but an alternative text (because URLs are usually long and ugly). In Markdown, the link text is inserted in square brackets and the URL in parentheses:  
+ 
+
+```yaml
+[pagedown website](https://pagedown.rbind.io/)
+```
+``. On a website, the URL is hidden and replaced by the link text: [pagedown website](https://pagedown.rbind.io/). The user can interactively access the URL by clicking on the link. 
+
+ 
+
+### Quote {-} 
+
+Use the > symbol to create blockquotes.
+
+```yaml
+> This is a blockquote.  IOM works to help ensure the orderly and humane management of migration, to promote international cooperation on migration issues, to assist in the search for practical solutions to migration problems and to provide humanitarian assistance to migrants in need, be they refugees, displaced persons or other uprooted people.
+```
+
+> This is a blockquote.  IOM works to help ensure the orderly and humane management of migration, to promote international cooperation on migration issues, to assist in the search for practical solutions to migration problems and to provide humanitarian assistance to migrants in need, be they refugees, displaced persons or other uprooted people.   
+
+
+### Footnote {-} 
+
+The default behavior of pagedown is to render notes as endnotes because Paged.js does not natively support footnotes for now. However, we introduced an experimental support for footnotes. You can test it by including `paged-footnotes: true` in the YAML header of your document. 
+
+
+
+### Page Break {-} 
+
+There are two ways to force a page break:
+
+- with the `\newpage` command (`\pagebreak` also works)
+
+- using one of these two CSS classes: `page-break-before` or `page-break-after`\
+
+For example, to force a page break before a given section, use:
+```markdown
+### New section {.page-break-before}
+```
+
+
+### Icons {-} 
+
+The [Humanitarian icons](https://brand.unocha.org/d/xEPytAUjC3sH/icons) which are now part of the [Fontawesome](https://fontawesome.com/icons/categories/humanitarian) can be used directly through the [`fontawesome`](https://rstudio.github.io/fontawesome/) R package.
+ 
+```{r icon,  include=TRUE, message=FALSE, warning=FALSE, echo=TRUE}
+# install.packages('fontawesome')
+## This is the default icon for Protection
+fontawesome::fa(name = "hands-holding-circle", 
+                height ="15em",
+                fill = "#0033A0")
+```
+
+### Code {-} 
+
+Use backticks to create inline code: 
+
+
+```yaml
+Code be displayed as `inline code`
+```
+
+Code be displayed as `inline code`
+
+
+Use triple backticks to create code blocks.
+
+```yaml
+/```
+Here we have inline code
+/```
+```
+
+```
+Here we have inline code
+
+```
+ 
+
+
+
+## Insert Images & Tables {-}
+
+
+### Images {-}
+
+Add images using an exclamation mark followed by alt text in square brackets and the image URL in parentheses.
+
+```yaml
+![alt text](url)
+```
+
+
+### Table {-}
+
+To create table, you can either:
+
+* Create tables from text that you define using pipes (|) and dashes (-) to separate columns and rows. below is an example
+
+
+```yaml
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+```
+
+which will then be displayed as below: 
+
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+
+* Create tables from the content of an R object using the `kable()` function and add caption as required. The table will be automatically registered within the `lot` list of table for the document.
+
+```{r, test-table, include=TRUE, message=FALSE, warning=FALSE, echo=TRUE}
+knitr::kable(head(iris[, -5]), 
+             caption = 'An example table.')
+```
+
+
+
+# Adding Charts {-}
+
+R Markdown added values comes with the capacity to embed R code chunks in your document. 
+
+## Load Libraries {-}
+
+Here’s a code block that load some required library:
+
+```{r install, eval=TRUE, echo = TRUE, include = TRUE}
+# Install CRAN packages
+packages <- c(
+  # A collection of R packages designed for data science, 
+  #including ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, and forcats.
+  "tidyverse", 
+  # Provides tools for scaling data and formatting axes and legends in ggplot2.
+  "scales",  
+  # Converts country names and codes between different formats.
+  "countrycode"
+)
+install.packages(setdiff(packages, rownames(installed.packages())))
+
+
+# Load required packages
+library(iomthemes)
+library(tidyverse)
+library(scales)
+library(countrycode) 
+```
+
+## Code Snippet {-}
+
+Here’s a code block that load a dataset:
+  
+  
+```{r data, eval=TRUE,  message=FALSE, warning=FALSE, echo=TRUE, include=TRUE}
+data.mig <- readxl::read_excel(system.file(
+  "undesa_pd_2020_ims_stock_by_sex_destination_and_origin.xlsx",
+  package = "iomthemes"),
+  col_types = c("numeric", "text", "text","numeric", "text",
+                "text", "numeric",
+                "numeric","numeric", "numeric", "numeric","numeric","numeric",
+                "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", 
+                "numeric","numeric", "numeric", "numeric", "numeric", "numeric",
+                "numeric","numeric", "numeric" ), 
+  sheet = "Table 1", skip = 9) |>
+  ## Getting clean variable names
+  janitor::clean_names() |>
+  dplyr::rename("total.2020"="x2020_14")|>
+  # Add ISO2 country code to identify the country level records 
+  dplyr::mutate( 
+    origin.iso2 = countrycode::countrycode(
+      location_code_of_origin,
+      origin = "un",
+      destination = "iso2c"),
+    destination.iso2 = countrycode::countrycode(
+      location_code_of_destination,
+      origin = "un",
+      destination = "iso2c")) |>
+  # Filter out rows where 'origin.iso2' and 'origin.iso2' is NA (missing)
+  # We do so to keep only country level records - filter out region subtotal
+  filter( !(is.na(origin.iso2)) ) |>
+  filter( !(is.na(destination.iso2)) ) |>
+  # Group the data by country of origin
+  group_by(region_development_group_country_or_area_of_origin) |>
+  # Summarize the total number of migrants for the year 2020 & remove NA! 
+  summarise(total_migrants_2020 = sum(total.2020, na.rm = TRUE)) |>
+  # Arrange the summarized data in descending order of total migrants
+  arrange(desc(total_migrants_2020)) |>
+  # Select the top 10 countries of origin with the highest number of migrants
+  slice_head(n = 10)  
+
+```
+
+
+And then the code block that generates a plot:
+
+```{r plot, eval=TRUE,  fig.height=6, fig.width=10, message=FALSE, warning=FALSE, echo=TRUE, include=TRUE}
+## and the plot
+plot <- data.mig |>
+  ggplot(
+    aes(x = reorder(region_development_group_country_or_area_of_origin,
+                    total_migrants_2020),
+        y = total_migrants_2020)) +
+  # Define it as a bar chart and apply IOM color palette
+  geom_bar(stat = "identity",
+           ## Apply IOM color palette!
+           fill = iomthemes::iom_pal(n = 1, name= "pal_blue"),
+           width = 0.8) +
+  # Flip the chart to make it more legible
+  coord_flip()  +
+  ## Format the labels for the x axis
+  scale_y_continuous(
+    labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  labs(
+    title = "Main Countries of Migrant Origin",
+    subtitle = "Highlighting the top 10 countries contributing to global
+                migration | 2020",
+    x = "Country of Origin",
+    y = "Total Migrants (2020)",
+    caption = "Source: United Nations Department of Economic and Social Affairs,
+            Population Division. International Migrant Stock (2020)") +
+  ## and apply IOM theme
+  iomthemes::theme_iom(grid = "X", axis = "Y", axis_title = "X")
+
+plot
+```
+
+## Chunk Options  {-}
+Code Chunks can be configured with various options to control their behavior and appearance.
+
+Below is a comprehensive guide to the potential configurations of a code chunk in R Markdown. These options are specified in the curly braces after the chunk name, separated by commas.
+
+- **echo**: Controls whether the R code is displayed in the output.
+
+```markdown 
+  - `echo = TRUE` (default): Show the code.
+  - `echo = FALSE`: Hide the code.
+
+```
+
+- **eval**: Controls whether the R code is evaluated.
+
+```markdown 
+  - `eval = TRUE` (default): Evaluate the code.
+  - `eval = FALSE`: Do not evaluate the code.
+```  
+
+- **include**: Controls whether both the code and its output are included in the output document.
+
+```markdown 
+  - `include = TRUE` (default): Include both code and output.
+  - `include = FALSE`: Exclude both code and output.
+```  
+
+- **results**: Controls how the results are displayed.
+
+```markdown 
+
+  - `results = "markup"` (default): Display results as regular text.
+  - `results = "asis"`: Display results as raw Markdown.
+  - `results = "hide"`: Hide the results.
+```  
+
+- **message**: Controls whether messages generated by the code are displayed.
+
+```markdown
+  - `message = TRUE` (default): Show messages.
+  - `message = FALSE`: Hide messages.
+```  
+
+- **warning**: Controls whether warnings generated by the code are displayed.
+
+```markdown
+  - `warning = TRUE` (default): Show warnings.
+  - `warning = FALSE`: Hide warnings.
+```  
+
+- **error**: Controls whether errors generated by the code are displayed.
+
+```markdown
+  - `error = FALSE` (default): Stop execution on error.
+  - `error = TRUE`: Display errors and continue execution.
+```  
+
+ 
+
+```markdown
+# This plot will be 6 inches wide and 4 inches high
+plot(cars)
+
+```  
+
+- **fig.width** and **fig.height**: Control the width and height of plots in inches.
+
+- **fig.align**: Controls the alignment of plots.
+  - `fig.align = "default"`: Default alignment.
+  - `fig.align = "left"`: Align plots to the left.
+  - `fig.align = "center"`: Center plots.
+  - `fig.align = "right"`: Align plots to the right.
+
+- **out.width** and **out.height**: Control the width and height of the output (e.g., plots) in any valid CSS unit.  
+  
+
+- **fig.cap**: Adds a caption to the plot.
+
+```markdown
+fig.width=6, fig.height=4 
+fig.align='center',
+out.width='50%', out.height='300px'
+
+fig.cap='A scatterplot of the cars dataset'
+# This plot will be centered
+plot(cars)
+```  
+
+- **cache**: Controls whether the results of the code chunk are cached.
+
+```markdown
+  - `cache = FALSE` (default): Do not cache results.
+  - `cache = TRUE`: Cache results for faster recompilation.
+```  
+
+- **tidy**: Controls whether the code is reformatted (tidied) before being displayed.
+  
+```markdown 
+  - `tidy = FALSE` (default): Do not tidy code.
+  - `tidy = TRUE`: Tidy code.
+```  
+
+You can combine multiple chunk options by separating them with commas.
+ 
+```markdown
+echo=FALSE, warning=FALSE, fig.width=6, fig.height=4, fig.align='center'
+# This code chunk will not show the code, hide warnings, and produce a centered plot of specified size
+plot(cars)
+```  
+ 
+To add plot, first familiarize yourself with the [`{iomthemes}` package](https://iom.github.io/iomthemes).
+
+
+
+# Conclusions {-}
+
+You are now set up! 
+
+
+### Disclaimer {.page-break-before}
+
+The opinions expressed in this publication are those of the authors and do not necessarily reflect the views of the International Organization for Migration (IOM). The designations employed and the presentation of material throughout the publication do not imply expression of any opinion whatsoever on the part of IOM concerning the legal status of any country, territory, city or area, or of its authorities, or concerning its frontiers or boundaries.
+
+IOM is committed to the principle that humane and orderly migration benefits migrants and society. As an intergovernmental organization, IOM acts with its partners in the international community to: assist in meeting the operational challenges of migration; advance understanding of migration issues; encourage social and economic development through migration; and uphold the human dignity and well-being of migrants.
+
+© IOM 2024 - Some rights reserved. This work is made available under the [Creative Commons Attribution-NonCommercial NoDerivs 3.0 IGO License (CC BY-NC-ND 3.0 IGO)](https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode). For further specifications please see the Copyright and Terms of Use.
+
+This publication should not be used, published or redistributed for purposes primarily intended for or directed towards commercial advantage or monetary compensation, with the exception of educational purposes, e.g. to be included in textbooks. Permissions: Requests for commercial use or further rights and licensing should be submitted to: publications@iom.int.
+
+
+
+

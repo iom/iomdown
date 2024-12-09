@@ -1,0 +1,197 @@
+---
+title: "Main title"
+subtitle: "Sub title"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
+author:
+  - name: Contact Name
+    affiliation: Job title
+    email: email@iom.int
+output:
+  iomdown::paged_simple:
+    back_html: true
+paged-footnotes: true
+links-to-footnotes: true
+# uncomment this line to produce HTML and PDF in RStudio:
+#knit: pagedown::chrome_print
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.retina = 2,
+                      fig.showtext = TRUE,
+                      dev = "ragg_png",
+                      dpi = 300)
+```
+
+# This is part 1 {-}
+
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+Finally, be sure to remove this message!
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+
+> IOM works to help ensure the orderly and humane management of migration, to promote international cooperation on migration issues, to assist in the search for practical solutions to migration problems and to provide humanitarian assistance to migrants in need, be they refugees, displaced persons or other uprooted people.
+
+
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+
+## Second level {-}
+
+Finally, be sure to remove this message!
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+
+
+# Adding Charts {-}
+
+To add plot, first familiarize yourself with the [`{iomthemes}` package](https://iom.github.io/iomthemes)
+
+## Code Snippet {-}
+
+Here’s a code block that generates a plot:
+
+
+```yaml
+\```{r}
+library(tidyverse)
+library(iomthemes)
+
+readxl::read_excel(system.file(
+  "undesa_pd_2020_ims_stock_by_sex_destination_and_origin.xlsx",
+                                           package = "iomthemes"),
+  sheet = "Table 1", skip = 9) |>
+  ## Getting clean variable names
+  janitor::clean_names() |>
+  dplyr::rename("total.2020"="x2020_14")|>
+  # Add ISO2 country code to identify the country level records 
+  dplyr::mutate( 
+    origin.iso2 = countrycode::countrycode(
+                    location_code_of_origin,
+                    origin = "un",
+                    destination = "iso2c"),
+    destination.iso2 = countrycode::countrycode(
+                    location_code_of_destination,
+                    origin = "un",
+                    destination = "iso2c")) |>
+  # Filter out rows where 'origin.iso2' and 'origin.iso2' is NA (missing)
+  # We do so to keep only country level records - filter out region subtotal
+  filter( !(is.na(origin.iso2)) ) |>
+  filter( !(is.na(destination.iso2)) ) |>
+  # Group the data by country of origin
+  group_by(region_development_group_country_or_area_of_origin) |>
+  # Summarize the total number of migrants for the year 2020 & remove NA! 
+  summarise(total_migrants_2020 = sum(total.2020, na.rm = TRUE)) |>
+  # Arrange the summarized data in descending order of total migrants
+  arrange(desc(total_migrants_2020)) |>
+  # Select the top 10 countries of origin with the highest number of migrants
+  slice_head(n = 10)  |>
+  ggplot(
+    aes(x = reorder(region_development_group_country_or_area_of_origin,
+                    total_migrants_2020),
+             y = total_migrants_2020)) +
+  # Define it as a bar chart and apply IOM color palette
+  geom_bar(stat = "identity",
+           ## Apply IOM color palette!
+           fill = iomthemes::iom_pal(n = 1, name= "pal_blue"),
+           width = 0.8) +
+  # Flip the chart to make it more legible
+  coord_flip()  +
+  ## Format the labels for the x axis
+  scale_y_continuous(
+    labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  labs(
+    title = "Main Countries of Migrant Origin",
+    subtitle = "Highlighting the top 10 countries contributing to global
+                migration | 2020",
+       x = "Country of Origin",
+       y = "Total Migrants (2020)",
+       caption = "Source: United Nations Department of Economic and Social Affairs,
+            Population Division. International Migrant Stock (2020)") +
+  ## and apply IOM theme
+  iomthemes::theme_iom(grid = "X", axis = "Y", axis_title = "X")
+\```
+```
+
+```{r}
+library(tidyverse)
+library(iomthemes)
+
+readxl::read_excel(system.file(
+  "undesa_pd_2020_ims_stock_by_sex_destination_and_origin.xlsx",
+                                           package = "iomthemes"),
+  sheet = "Table 1", skip = 9) |>
+  ## Getting clean variable names
+  janitor::clean_names() |>
+  dplyr::rename("total.2020"="x2020_14")|>
+  # Add ISO2 country code to identify the country level records 
+  dplyr::mutate( 
+    origin.iso2 = countrycode::countrycode(
+                    location_code_of_origin,
+                    origin = "un",
+                    destination = "iso2c"),
+    destination.iso2 = countrycode::countrycode(
+                    location_code_of_destination,
+                    origin = "un",
+                    destination = "iso2c")) |>
+  # Filter out rows where 'origin.iso2' and 'origin.iso2' is NA (missing)
+  # We do so to keep only country level records - filter out region subtotal
+  filter( !(is.na(origin.iso2)) ) |>
+  filter( !(is.na(destination.iso2)) ) |>
+  # Group the data by country of origin
+  group_by(region_development_group_country_or_area_of_origin) |>
+  # Summarize the total number of migrants for the year 2020 & remove NA! 
+  summarise(total_migrants_2020 = sum(total.2020, na.rm = TRUE)) |>
+  # Arrange the summarized data in descending order of total migrants
+  arrange(desc(total_migrants_2020)) |>
+  # Select the top 10 countries of origin with the highest number of migrants
+  slice_head(n = 10)  |>
+  ggplot(
+    aes(x = reorder(region_development_group_country_or_area_of_origin,
+                    total_migrants_2020),
+             y = total_migrants_2020)) +
+  # Define it as a bar chart and apply IOM color palette
+  geom_bar(stat = "identity",
+           ## Apply IOM color palette!
+           fill = iomthemes::iom_pal(n = 1, name= "pal_blue"),
+           width = 0.8) +
+  # Flip the chart to make it more legible
+  coord_flip()  +
+  ## Format the labels for the x axis
+  scale_y_continuous(
+    labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  labs(
+    title = "Main Countries of Migrant Origin",
+    subtitle = "Highlighting the top 10 countries contributing to global
+                migration | 2020",
+       x = "Country of Origin",
+       y = "Total Migrants (2020)",
+       caption = "Source: United Nations Department of Economic and Social Affairs,
+            Population Division. International Migrant Stock (2020)") +
+  ## and apply IOM theme
+  iomthemes::theme_iom(grid = "X", axis = "Y", axis_title = "X")
+```
+
+
+
+
+
+# And now part 2 {-}
+
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+
+## Second level {-}
+
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+
+Finally, be sure to remove this message!
+
+# And now part 3 {-}
+
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+
+## Second level {-}
+
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+
+Finally, be sure to remove this message!

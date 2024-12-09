@@ -1,0 +1,32 @@
+Package: iomdown
+Title: IOM Templates for R Markdown
+Version: 0.0.1
+Authors@R:c(
+    person("Edouard", "Legoupil", , "elegoupil@iom.int", role = c("aut", "cre")),
+    person(, "IOM", role = "cph")
+  )
+Description: Produce documents compliant with IOM brand identity.
+License: MIT + file LICENSE
+URL: https://github.com/iom/iomdown, https://iom.github.io/iomdown/
+BugReports: https://github.com/iom/iomdown/issues
+Imports:
+    iomdesign,
+    iomthemes,
+    fontawesome,
+    magick,
+    officedown,
+    pagedown,
+    rmarkdown,
+    xaringan
+Suggests: 
+    knitr
+VignetteBuilder: 
+    knitr
+Remotes: 
+    iom/iomdesign
+    iom/iomthemes
+Config/Needs/website: iom/iomtemplate
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
