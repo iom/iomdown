@@ -23,7 +23,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    iom/iomdesign
+    iom/iomdesign,
     iom/iomthemes
 Config/Needs/website: iom/iomtemplate
 Encoding: UTF-8
