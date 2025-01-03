@@ -17,6 +17,7 @@ Imports:
     officedown,
     pagedown,
     rmarkdown,
+    showtext,
     xaringan
 Suggests: 
     knitr

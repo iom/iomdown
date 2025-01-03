@@ -13,7 +13,7 @@
 /* string variables */
 h1.title {
   string-set: h1-title content(text);
-  font-family: 'Gill Sans Nova', sans-serif;
+  font-family: 'Gill Sans Nova' !important;
   font-size: 3.5em;
   font-weight: 700;
   text-transform: uppercase;

@@ -23,9 +23,13 @@ The goal of this package is to ease and speed up the creation of reports, presen
 This package is not on yet on CRAN. To to install it, you will need the `{pak}` package.
 
 ``` r
-# If pak is not yet installed, uncomment the following line:
+
 install.packages("pak")
+library(pak)
+
 pak::pkg_install("iom/iomdown")
+library(iomdown)
+
 ```
 
 ## Content

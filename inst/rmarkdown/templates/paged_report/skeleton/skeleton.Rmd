@@ -19,7 +19,7 @@ output:
     # Change to true to add number in front of chapters
     number_sections: false
     # Change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
-    self_contained: true
+    self_contained: false
     
 # Set  toc title, default none
 toc-title: Contents
